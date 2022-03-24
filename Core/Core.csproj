@@ -5,17 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CrossCuttingConcern\Logging\Log4Net\Layouts\" />
-    <Folder Include="CrossCuttingConcern\Logging\Log4Net\Loggers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.3.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.1" />
     <PackageReference Include="Castle.Core" Version="4.4.1" />
     <PackageReference Include="FluentValidation" Version="10.4.0" />
     <PackageReference Include="log4net" Version="2.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.15" />

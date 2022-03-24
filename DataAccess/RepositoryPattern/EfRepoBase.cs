@@ -35,7 +35,7 @@ namespace DataAccess.RepositoryPattern
             }
         }
 
-        public async Task<TEntity> Get(Expression<Func<TEntity, bool>> filter = null)
+        public async Task<TEntity> Get(Expression<Func<TEntity, bool>> filter)
         {
             using (var db = new Tcontext())
             {

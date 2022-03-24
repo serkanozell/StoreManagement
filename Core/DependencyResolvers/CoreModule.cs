@@ -2,8 +2,12 @@
 using Core.CrossCuttingConcern.Caching.MemoryCache;
 using Core.CrossCuttingConcern.Caching.Redis;
 using Core.IoC;
+using Core.Security.Encryption;
+using Core.Security.JWT;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis.Extensions.Core;
 using StackExchange.Redis.Extensions.Core.Abstractions;
 using StackExchange.Redis.Extensions.Core.Configuration;
@@ -14,6 +18,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+
 
 namespace Core.DependencyResolvers
 {
@@ -51,6 +57,8 @@ namespace Core.DependencyResolvers
             serviceCollection.AddSingleton<ICacheManager>((opt) => { return new RedisCache(opt.GetRequiredService<IRedisCacheClient>()); });
             //serviceCollection.AddSingleton<IRedisCacheClient, RedisCacheClient>();
             serviceCollection.AddSingleton<ICacheManager, RedisCache>();
+
+
 
         }
     }

@@ -11,8 +11,5 @@ namespace Entities.Concrete
         public int PersonnelId { get; set; }
         public int LoginInfoId { get; set; }
         public DateTime Date { get; set; }
-
-        public virtual LoginInfo LoginInfo { get; set; }
-        public virtual Personnel Personnel { get; set; }
     }
 }

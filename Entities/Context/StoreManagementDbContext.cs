@@ -16,7 +16,7 @@ namespace Entities.Context
         public StoreManagementDbContext(DbContextOptions<StoreManagementDbContext> options)
             : base(options)
         {
-            //Database.Migrate();
+            Database.Migrate();
         }
 
         public virtual DbSet<ActionStatus> ActionStatuses { get; set; }
@@ -44,7 +44,7 @@ namespace Entities.Context
         public virtual DbSet<Personnel> Personnel { get; set; }
         public virtual DbSet<PersonnelLoginInfo> PersonnelLoginInfos { get; set; }
         public virtual DbSet<PersonnelTeam> PersonnelTeams { get; set; }
-        public virtual DbSet<PersonnelTypeId> PersonnelTypeIds { get; set; }
+        public virtual DbSet<PersonnelType> PersonnelTypes { get; set; }
         public virtual DbSet<Price> Prices { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<RolePersonnel> RolePersonnel { get; set; }
@@ -53,7 +53,9 @@ namespace Entities.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=StoreManagementDb;Trusted_Connection=True;");
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -519,11 +521,13 @@ namespace Entities.Context
                     .IsRequired()
                     .UseCollation("Turkish_CI_AS");
 
-                entity.Property(e => e.MasterId)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .HasColumnName("MasterID")
-                    .IsFixedLength(true);
+                entity.Property(e => e.MasterId).HasColumnName("MasterID");
+
+                entity.Property(e => e.PasswordHash).IsRequired();
+
+                entity.Property(e => e.PasswordSalt).IsRequired();
+
+                entity.Property(e => e.UserName).IsRequired();
 
                 entity.HasOne(d => d.Company)
                     .WithMany(p => p.Personnel)
@@ -543,18 +547,6 @@ namespace Entities.Context
                 entity.Property(e => e.LoginInfoId).HasColumnName("LoginInfoID");
 
                 entity.Property(e => e.PersonnelId).HasColumnName("PersonnelID");
-
-                entity.HasOne(d => d.LoginInfo)
-                    .WithMany(p => p.PersonnelLoginInfos)
-                    .HasForeignKey(d => d.LoginInfoId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PersonnelLoginInfo_LoginInfo");
-
-                entity.HasOne(d => d.Personnel)
-                    .WithMany(p => p.PersonnelLoginInfos)
-                    .HasForeignKey(d => d.PersonnelId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PersonnelLoginInfo_Personnel");
             });
 
             modelBuilder.Entity<PersonnelTeam>(entity =>
@@ -570,14 +562,14 @@ namespace Entities.Context
                 entity.Property(e => e.TeamId).HasColumnName("TeamID");
             });
 
-            modelBuilder.Entity<PersonnelTypeId>(entity =>
+            modelBuilder.Entity<PersonnelType>(entity =>
             {
-                entity.HasKey(e => e.PersonnelTypeId1)
+                entity.HasKey(e => e.PersonnelTypeId)
                     .HasName("PK_OwnerType");
 
-                entity.ToTable("PersonnelTypeID");
+                entity.ToTable("PersonnelType");
 
-                entity.Property(e => e.PersonnelTypeId1).HasColumnName("PersonnelTypeID");
+                entity.Property(e => e.PersonnelTypeId).HasColumnName("PersonnelTypeID");
 
                 entity.Property(e => e.Description)
                     .IsRequired()

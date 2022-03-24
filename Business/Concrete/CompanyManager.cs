@@ -12,6 +12,12 @@ namespace Business.Concrete
     public class CompanyManager : ICompanyService
     {
         ICompanyRepository _companyRepository;
+
+        public CompanyManager(ICompanyRepository companyRepository)
+        {
+            _companyRepository = companyRepository;
+        }
+
         public async Task Add(Company company)
         {
             await _companyRepository.Add(company);

@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StackExchange.Redis.Extensions.Core.Abstractions;
@@ -24,6 +26,7 @@ namespace StoreManagementAPI.Controllers
         }
 
         [HttpPost("addasset")]
+        //[Authorize(Roles =("asset.add"))]
         public async Task<IActionResult> Add(Asset asset)
         {
             await _assetService.Add(asset);

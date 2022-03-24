@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Messages
+namespace Entities
 {
-    public static class Messages
+    public interface IDto
     {
     }
 }

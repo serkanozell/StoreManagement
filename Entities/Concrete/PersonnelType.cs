@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace Entities.Concrete
 {
-    public partial class PersonnelTypeId : IEntity
+    public partial class PersonnelType : IEntity
     {
-        public PersonnelTypeId()
+        public PersonnelType()
         {
             AssetPersonnel = new HashSet<AssetPersonnel>();
         }
 
-        public int PersonnelTypeId1 { get; set; }
+        public int PersonnelTypeId { get; set; }
         public string Description { get; set; }
 
         public virtual ICollection<AssetPersonnel> AssetPersonnel { get; set; }

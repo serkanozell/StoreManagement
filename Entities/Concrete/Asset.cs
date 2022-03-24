@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -20,7 +18,6 @@ namespace Entities.Concrete
             Prices = new HashSet<Price>();
         }
 
-        [Key]
         public int AssetId { get; set; }
         public int RegistrationNumber { get; set; }
         public int CompanyId { get; set; }
@@ -33,7 +30,6 @@ namespace Entities.Concrete
         public bool Guarantee { get; set; }
         public DateTime EntryDate { get; set; }
         public DateTime? RetireDate { get; set; }
-
 
         public virtual AssetType AssetType { get; set; }
         public virtual Group Group { get; set; }

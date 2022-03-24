@@ -15,6 +15,6 @@ namespace Entities.Concrete
 
         public virtual Asset Asset { get; set; }
         public virtual Personnel Personnel { get; set; }
-        public virtual PersonnelTypeId PersonnelType { get; set; }
+        public virtual PersonnelType PersonnelType { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Core.CrossCuttingConcern.Caching;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -26,6 +27,7 @@ namespace Business.Concrete
             _cacheManager = cacheManager;
         }
 
+        [SecuredOperation("asset.add,superadmin")]//burada eklenen her yetkiden birisi geçerli olduğu sürece asset eklenecektir
         public async Task Add(Asset asset)
         {
             await _assetRepository.Add(asset);
@@ -40,12 +42,12 @@ namespace Business.Concrete
         {
             if (_cacheManager.IsAdd(key))
             {
-                var json =await _redisCacheClient.Db0.Database.StringGetAsync(key);
+                var json = await _redisCacheClient.Db0.Database.StringGetAsync(key);
                 var end = JsonConvert.DeserializeObject<List<Asset>>(json);
                 return end;
             }
             var result = new List<Asset>(await _assetRepository.GetAll());
-            var jsonData =await _redisCacheClient.Db0.AddAsync(key,await _assetRepository.GetAll(), DateTime.Now.AddMinutes(5));
+            var jsonData = await _redisCacheClient.Db0.AddAsync(key, await _assetRepository.GetAll(), DateTime.Now.AddMinutes(5));
             _redisCacheClient.Serializer.Serialize(jsonData);
             //var result = await _assetRepository.GetAll();
             return result;

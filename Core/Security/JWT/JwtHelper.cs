@@ -22,14 +22,13 @@ namespace Core.Security.JWT
         {
             Configuration = configuration;
             _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
-
         }
-        public AccessToken CreateToken(Personnel personnel, List<Claims> operationClaims)
+        public  AccessToken CreateToken(Personnel personnel, List<Role> operationClaims)
         {
             _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
             var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
             var signingCredentials = SigningCredentialsHelper.CreateSigningCredentials(securityKey);
-            var jwt = CreateJwtSecurityToken(_tokenOptions, personnel, signingCredentials, operationClaims);
+            var jwt =  CreateJwtSecurityToken(_tokenOptions, personnel, signingCredentials, operationClaims);
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             var token = jwtSecurityTokenHandler.WriteToken(jwt);
 
@@ -38,24 +37,23 @@ namespace Core.Security.JWT
                 Token = token,
                 Expiration = _accessTokenExpiration
             };
-
         }
 
-        public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, Personnel personnel,
-            SigningCredentials signingCredentials, List<Claims> operationClaims)
+        public  JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, Personnel personnel,
+            SigningCredentials signingCredentials, List<Role> operationClaims)
         {
             var jwt = new JwtSecurityToken(
                 issuer: tokenOptions.Issuer,
                 audience: tokenOptions.Audience,
                 expires: _accessTokenExpiration,
                 notBefore: DateTime.Now,
-                claims: SetClaims(personnel,operationClaims),
+                claims:  SetClaims(personnel, operationClaims),
                 signingCredentials: signingCredentials
             );
             return jwt;
         }
 
-        private IEnumerable<Claim> SetClaims(Personnel personnel, List<Claims> operationClaims)
+        private  IEnumerable<Claim> SetClaims(Personnel personnel, List<Role> operationClaims)
         {
             var claims = new List<Claim>();
             claims.AddNameIdentifier(personnel.PersonnelId.ToString());
